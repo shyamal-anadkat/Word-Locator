@@ -1,5 +1,5 @@
 //  File: wl.cpp
-//  Description: Add stuff here ...
+//  Description: Main
 //  Student Name: Shyamal Anadkat
 //  UW Campus ID: 9071804893
 //  email: anadkat@wisc.edu
@@ -40,7 +40,7 @@ int main()
 
         //print vector
         //for (vector<string>::iterator it = tokens.begin(); it != tokens.end(); ++it) {
-        //	cout << *it;
+        //cout << *it;
         parseInput(tokens);
     }
     return 0;
@@ -63,7 +63,8 @@ bool parseInput(vector<string> tokens)
 
     else if (tokens.at(0) == "load" && tokens.size() > 1) {
         cout << "load";
-        //load file with relative or absolute path
+
+        loadFileIntoBST(tokens.at(1));
     }
 
     else if (tokens.at(0) == "locate" && tokens.size() > 2) {
@@ -77,8 +78,73 @@ bool parseInput(vector<string> tokens)
     return true;
 }
 
+
+// prints invalid command to output stream
 void invalidCmd()
 {
     cout << "ERROR: Invalid command";
     cout << '\n';
+}
+
+
+// curr : current occurence, n: given occurrence
+int BSTree::locate(BST_Node* root, string key, int n, int curr){
+
+    //empty tree. fail and return -1
+    if(root == NULL) {
+        return -1;
+    }
+
+    if(key == root->word) {
+        if(n == curr) {
+            return root->count;
+        } else {
+            curr++;
+            return locate(root->right, key, n, curr);
+        }
+    }
+
+    else if(key < root->word) {
+        return locate(root->left, key, n, curr);
+    }
+
+    else if(key > root->word) {
+        return locate(root->right, key, n, curr);
+    }
+}
+
+
+void BSTree::insert(BST_Node* root, BST_Node* newnode) {
+
+    if (root->word > newnode->word) {
+        if (root->left != NULL) {
+            insert(root->left, newnode);
+        } else {
+            root->left = newnode;
+            return;
+        }
+    }
+
+    else{
+        if (root->right != NULL) {
+            insert(root->right, newnode);
+        } else {
+            root->right = newnode;
+            return;
+        }
+    }
+}
+
+void loadFileIntoBST(string fileName) {
+       
+        //load file with relative or absolute path
+        ifstream infile (fileName.c_str());
+        
+        if(infile.is_open()) {
+            cout << "Opened"; 
+        } else {
+            cout << "Unable to open file"; 
+        }
+
+        infile.close();
 }

@@ -10,27 +10,40 @@ using namespace std;
 
 bool parseInput(vector<string> tokens);
 void invalidCmd();
+void loadFileIntoBST(string fileName);
 
-class BNode {
+class BST_Node {
 
 public:
-	string word;
-	int count; 
-	BNode *left;
-	BNode *right;
+	string word;		// key holding data
+	int count; 			// word numbering 
+	BST_Node *left; 	// ptr to left 
+	BST_Node *right;	// ptr to right 
 
-	BNode() {}
-	BNode(string in) {
+	BST_Node();
+	~BST_Node();
+
+	BST_Node(string in) {
 		word = in; 
 		right = left = NULL;
 		count = 0;
 	}
 };
 
-class BTree{
+class BSTree{
 
-	BNode *root;
+public:
+	BST_Node *root;
 
+	BSTree() {
+		root = NULL;
+	}
+
+	~BSTree() {}
+
+	void insert(BST_Node* root, BST_Node* newnode);
+
+	int locate(BST_Node* root, string key, int n, int curr);
 
 };
 
