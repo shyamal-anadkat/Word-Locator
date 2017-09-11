@@ -60,7 +60,7 @@ bool parseInput(vector<string> tokens) {
         }
     }
 
-    else if (tokens.at(0) == "load" && tokens.size() > 1) {
+    else if (tokens.at(0) == "load" && tokens.size() == 2) {
         if(loadFileIntoBST(tokens.at(1)) == -1) {
             invalidCmd();
         }
@@ -188,9 +188,6 @@ int loadFileIntoBST(string fileName) {
                         transform(key.begin(), key.end(), key.begin(), ::tolower);
                         BST_Node* newnode = new BST_Node(key, wordCount);
 
-                        //cout << key;
-                        //cout << wordCount;
-                        //cout << '\n';
                         if (tree->root == NULL) {
                             tree->root = newnode;
                         } else {
@@ -227,9 +224,13 @@ int loadFileIntoBST(string fileName) {
 void BSTree::deleteTree(BST_Node* root) {
 
     if(root == NULL) return;
+
+    if(root != NULL) {
     deleteTree(root->left);
     deleteTree(root->right);
+    
     delete root;
+  }
 }
 
 void print_tree(BST_Node *n) {
